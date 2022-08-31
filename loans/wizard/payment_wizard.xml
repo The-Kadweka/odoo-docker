@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="payment_wizard_view" model="ir.ui.view">
+        <field name="name">Register Payment</field>
+        <field name="model">account.loan.payment.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="amount"/>
+                    <field name="payment_date"/>
+                    <field name="journal_id"/>
+                </group>
+                <!-- <footer>
+                    <button name="set_student_level" string="Update Level" class="oe_right oe_highlight"
+                            type="object"/>
+                    <button string="Cancel" class="oe_right" special="cancel"/>
+                </footer> -->
+            </form>
+        </field>
+    </record>
+
+</odoo>

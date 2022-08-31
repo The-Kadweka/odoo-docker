@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+      
+
+        <record model="ir.actions.act_window" id="action_view__loan_accounts">
+            <field name="name">loans</field>
+            <field name="res_model">loan.account</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('state','=',['disbused','draft'])]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">CREATE A NEW LOAN
+                </p>
+            </field>
+        </record>
+        
+        <record id="loan_kanban_view" model="ir.ui.view">
+            <field name="name">loan.account.kanban</field>
+            <field name="model">loan.account</field>
+            <field name="arch" type="xml">
+                <kanban class="o_loan_account_kanban">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="r_amnt"/>
+                    <field name="a_amnt"/>
+                    <field name="app_date"/>
+                    <field name="dis_date"/>
+                    <field name="bal_amount"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                                <div class="oe_kanban_details">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </strong>
+                                  <div t-if="record.partner_id.value">
+                                        <t t-esc="record.partner_id.value"/>
+                                </div>
+                                    <div t-if="record.r_amnt.value">
+                                        <t t-esc="record.r_amnt.value"/>
+                                </div>
+                                <div t-if="record.a_amnt.value">
+                                        <t t-esc="record.a_amnt.value"/>
+                                </div>
+                                <div t-if="record.app_date.value">
+                                        <t t-esc="record.app_date.value"/>
+                                </div>
+                                 <div t-if="record.dis_date.value">
+                                        <t t-esc="record.dis_date.value"/>
+                                </div>
+                                  <div t-if="record.bal_amount.value">
+                                        <t t-esc="record.bal_amount.value"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_loan_account_tree" model="ir.ui.view">
+            <field name="name">loan.account.tree</field>
+            <field name="model">loan.account</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Accounts">
+                    <field name="name" />
+                    <field name="partner_id" />
+                    <field name="manager_id" />
+                    <field name="app_date" />
+                    <field name="dis_date"/>
+                    <field name="duration" />
+                    <field name="bal_amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_loan_account_form" model="ir.ui.view">
+           <field name="name">loan.account.tree</field>
+            <field name="model">loan.account</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Accounts">
+                <header>
+                        <field name="state" 
+                        widget="statusbar" 
+                        clickable="False" 
+                          states="draft,waiting,approvedcancel,disbused,closed" 
+                        statusbar_visible="draft,waiting,approved,disbused" 
+                        statusbar_colors='{"draft":"grey","waiting":"orange","approved":"green","cancel":"red"}'
+                        ></field>     
+                         <div name="button_box" position="inside">
+                </div>     
+                    <button name="compute_installment" type="object" string="Compute Installment" class="oe_highlight"/>
+                    <button name="action_cancel" type="object" string="Cancel" states="draft" />    
+                    <button name="open_disbursement_wizard" type="object" string="Disburse Loan" class="oe_highlight"/>                          
+                </header>
+                    <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="purpose" />
+                            <field name="partner_id"/>
+                            <field name="loan_product_id" />
+                            <field name="duration" />
+                            <field name="manager_id"/>
+                        </group>
+                        <group>
+                        <field name="int_rate" />
+                          <field name="app_date" />
+                            <field name="dis_date" />
+                            <field name="r_amnt" />
+                            <field name="a_amnt" />
+                            <field name="bal_amount"/>
+                        </group>
+                          </group>
+                    <notebook string="Installments">
+                        <page string="Installments">
+                            <field name="installment_lines">
+                                <tree string="Installments" editable="bottom">
+                                    <field name="date"/>
+                                    <field name="amount"/>
+                                    <field name="interest"/>
+                                    <field name="instalemt"/>
+                                    <field name="paid"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right" colspan="2" >
+                                <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="paid_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="bal_amount" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                            <div class="oe_clear"/>
+                        </page>
+                         <page string="Accounting">
+
+                        </page>
+
+                          <page string="Related Customer Loans">
+
+                        </page>
+                    </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+           <menuitem 
+        id="loan_menu" 
+        name="Loans"
+        web_icon="loans,static/src/img/icon.png"
+        />
+        <menuitem id="laon_account_view" name="Loan" parent="loan_menu"  action="loans.action_view__loan_accounts"/>
+    </data>
+</odoo>

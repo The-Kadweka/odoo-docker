@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="disbursement_wizard_view" model="ir.ui.view">
+        <field name="name">Loan Disbursement</field>
+        <field name="model">loan.disburse.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="amount"/>
+                    <field name="dis_date"/>
+                    <field name="journal_id"/>
+                </group>
+                <footer>
+                    <button name="disburse_loan" string="Update Level" class="oe_right oe_highlight" type="object"/>
+                    <button string="Cancel" class="oe_right" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

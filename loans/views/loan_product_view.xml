@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record model="ir.actions.act_window" id="new_loan_product">
+    <field name="name">Loan Product</field>
+    <field name="res_model">loan.product</field>
+    <field name="view_mode">kanban,tree,form</field>
+    <field name="help" type="html">
+        <p class="oe_view_nocontent_create">CREATE A NEW LOAN PRODUCT!!!
+        </p>
+    </field>
+</record>
+
+<record id="loan_kanban_view" model="ir.ui.view">
+    <field name="name">loan.product.kanban</field>
+    <field name="model">loan.product</field>
+    <field name="arch" type="xml">
+        <kanban class="o_loan_product_kanban">
+            <field name="id"/>
+            <field name="name"/>
+            <field name="rate"/>
+            <field name="currency_id"/>
+            <templates>
+                <t t-name="kanban-box">
+                        <div class="oe_kanban_details">
+                            <strong class="o_kanban_record_title">
+                                <field name="name"/>
+                            </strong>
+                            <div t-if="record.rate.value">
+                                <t t-esc="record.rate.value"/>
+                        </div>
+                            <div t-if="record.currency_id.value">
+                                <t t-esc="record.currency_id.value"/>
+                        </div>
+                    </div>
+                </t>
+            </templates>
+        </kanban>
+    </field>
+</record>
+        <record id="view_loan_product_tree_view" model="ir.ui.view">
+                    <field name="name">loan.product.tree</field>
+                    <field name="model">loan.product</field>
+                    <field name="priority" eval="8" />
+                    <field name="arch" type="xml">
+                        <tree string="Loan Product">
+                            <field name="name" />
+                            <field name="rate" />
+                            <field name="currency_id" />
+                            <field name="allow_gr_period" />
+                            <field name="max_gr_period"/>
+                        </tree>
+                    </field>
+        </record>
+        <record id="view_loan_product_form" model="ir.ui.view">
+           <field name="name">loan.product.tree</field>
+            <field name="model">loan.product</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Loan Product">
+                    <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="currency_id" />
+                            <field name="allow_gr_period"/>
+                        </group>
+                        <group>
+                          <field name="rate" />
+                            <field name="max_gr_period" />
+                        </group>
+                          </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <menuitem id="laon_setting_view" name="Settings" parent="loan_menu"/>
+        <menuitem id="laon_product_view" name="Loan Product" parent="laon_setting_view"  action="loans.new_loan_product"/>
+</odoo>

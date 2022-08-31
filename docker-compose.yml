@@ -1,0 +1,45 @@
+version: '3.1'
+services:
+    odoo-stack:
+      container_name: odoo-stack
+      build:
+          context: ./dockerfile
+          dockerfile: odoo.Dockerfile
+      volumes:
+        - ./addons-extra:/mnt/addons-extra
+        - ./odoo-config:/etc/odoo
+        -  odoo-web-data:/var/lib/odoo
+      ports:
+        - 8069:8069
+      depends_on:
+        - database-stack
+      restart: always
+
+    database-stack:
+        container_name: database-stack
+        image: postgres:latest
+        volumes:
+          - database-stack-data:/var/lib/postgresql/data/pgdata
+        ports:
+          - 5432:5432
+        environment:
+          - POSTGRES_PASSWORD:'odoo'
+          - POSTGRES_USER:'odoo'
+          - POSTGRES_DB:'postgres'
+          - PGDATA=/var/lib/postgresql/data/pgdata
+        restart: always
+    pgadmin-stack:
+        image: dpage/pgadmin4:latest
+        labels:
+          name: pgadmin
+        ports:
+          - '7050:80'
+        depends_on:
+          - database-stack
+        environment:
+          PGADMIN_DEFAULT_EMAIL: 'husseinkatana17@gmail.com'
+          PGADMIN_DEFAULT_PASSWORD: 'password'
+volumes:
+  odoo-web-data:
+  database-stack-data:
+  # pgadmin-data:

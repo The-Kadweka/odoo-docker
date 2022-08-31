@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+loans.access_loan_account,access_loan_account,loans.model_loan_account,base.group_user,1,1,1,1
+loans.access_loan_account_line,access_loan_account_line,loans.model_loan_account_line,base.group_user,1,1,1,1
+loans.access_loan_product,access_loan_product,loans.model_loan_product,base.group_user,1,1,1,1
+loans.access_loan_disburse_wizard,access_loan_disburse_wizard,loans.model_loan_disburse_wizard,base.group_user,1,1,1,1
+
+
+
